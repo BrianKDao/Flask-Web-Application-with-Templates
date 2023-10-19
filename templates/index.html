@@ -1,11 +1,12 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
-{% block title %}Flasky{% endblock %}
+{% block title %}Course Override{% endblock %}
 
 {% block page_content %}
 <div class="page-header">
-    <h1>Hello, {% if name %}{{ name }}{% else %}Stranger{% endif %}!</h1>
+    <h1>{% if name %}Thanks {{ name }}, The course override has been submitted. {% else %}Course Override Form{% endif %}</h1>
 </div>
+
 {{ wtf.quick_form(form) }}
 {% endblock %}

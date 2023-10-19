@@ -11,9 +11,9 @@ app.config['SECRET_KEY'] = 'hard to guess string'
 bootstrap = Bootstrap(app)
 moment = Moment(app)
 
-courses = ['cmsc 101', 'cmsc 401', 'cmsc 455', 'cmsc 42069']
+courses = ["",'cmsc 101', 'cmsc 144', 'cmsc 191', 'cmsc 210', 'cmsc 235', 'cmsc 245', 'cmsc 246', 'cmsc 254', 'cmsc 255', 'cmsc 256', 'cmsc 257', 'cmsc 302', 'cmsc 303', 'cmsc 311', 'cmsc 312', 'cmsc 320', 'cmsc 320', 'cmsc 330', 'cmsc 340', 'cmsc 355', 'cmsc 391', 'cmsc 401', 'cmsc 403', 'cmsc 404', 'cmsc 409', 'cmsc 410', 'cmsc 411', 'cmsc 412', 'cmsc 413', 'cmsc 414', 'cmsc 415', 'cmsc 416', 'cmsc 455', 'cmsc 42069']
 class NameForm(FlaskForm):
-    vnumber = IntegerField('What is your V number? (without the V)', validators=[DataRequired()])
+    vnumber = StringField('What is your V number? (with the V)', validators=[DataRequired()])
     first_name = StringField('What is your first name?', validators=[DataRequired()])
     last_name = StringField('What is your last name?', validators=[DataRequired()])
     vcu_email = EmailField('What is your vcu_email?', validators=[DataRequired()])
@@ -34,6 +34,15 @@ def index():
     name = None
     form = NameForm()
     if form.validate_on_submit():
-        name = form.name.data
-        form.name.data = ''
+        name = form.first_name.data
+        form.vnumber.data = ''
+        form.first_name.data = ''
+        form.last_name.data = ''
+        form.vcu_email.data = ''
+        form.coursenumber.data = ""
+
     return render_template('index.html', form=form, name=name)
+
+if __name__ == '__main__':
+    app.debug=True
+    app.run()
