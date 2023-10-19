@@ -11,10 +11,29 @@ app.config['SECRET_KEY'] = 'hard to guess string'
 bootstrap = Bootstrap(app)
 moment = Moment(app)
 
+courses = ['cmsc 101', 'cmsc 401', 'cmsc 455', 'cmsc 42069']
 class NameForm(FlaskForm):
     vnumber = IntegerField('What is your V number? (without the V)', validators=[DataRequired()])
     first_name = StringField('What is your first name?', validators=[DataRequired()])
     last_name = StringField('What is your last name?', validators=[DataRequired()])
     vcu_email = EmailField('What is your vcu_email?', validators=[DataRequired()])
-    coursenumber = SelectField('Enter the Course Number for which you are requesting an override.', choices= (), validators=[DataRequired()])
+    coursenumber = SelectField('Enter the Course Number for which you are requesting an override.', choices=courses, validators=[DataRequired()])
     submit = SubmitField('Submit')
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+
+@app.errorhandler(500)
+def internal_server_error(e):
+    return render_template('500.html'), 500
+
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    name = None
+    form = NameForm()
+    if form.validate_on_submit():
+        name = form.name.data
+        form.name.data = ''
+    return render_template('index.html', form=form, name=name)
